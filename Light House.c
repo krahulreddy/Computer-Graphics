@@ -33,6 +33,22 @@ void displayCB(void)
   glVertex2i(900, 400);
   glEnd();
 
+  glColor3f(0.0, 0.0, 1.0);	//Land
+  glBegin(GL_POLYGON);
+  glVertex2i(0, 0);
+  glVertex2i(0, 100);
+  glVertex2i(800, 100);
+  glVertex2i(800, 0);
+  glEnd();
+
+  glColor3f(0.4, 0.25, 0.13);	//Land
+  glBegin(GL_POLYGON);
+  glVertex2i(0, 0);
+  glVertex2i(0, 100);
+  glVertex2i(300, 100);
+  glVertex2i(400, 0);
+  glEnd();
+
   int lhHeight = 250, lhWidth = 50, lhStartx = 50, lhStarty = 50;
   glColor3f(1.0, 0.0, 0.0);
   glBegin(GL_POLYGON);		//LH tower
