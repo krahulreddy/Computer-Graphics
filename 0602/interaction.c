@@ -59,8 +59,8 @@ void mouse(int button,int state,int x,int y)
 		break;
 	case GLUT_RIGHT_BUTTON:
 		printf("Exit\n");
-		wheel(x, y, wheelR);
 		glutDestroyWindow(1);
+		exit;
 		break;
 	default:
 		break;

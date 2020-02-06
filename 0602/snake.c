@@ -39,30 +39,6 @@ void update( int n) {
 	glutTimerFunc(50, update, 0);
 }
 
-
-void mouse(int button,int state,int x,int y)
-{
-	switch(button)
-	{
-	case GLUT_LEFT_BUTTON:
-		if(state==GLUT_DOWN)
-			glutIdleFunc(spinDisplay);
-		break;
-	case GLUT_MIDDLE_BUTTON:
-		if(state==GLUT_DOWN)
-		{
-			glutIdleFunc(NULL);
-		}
-		break;
-	case GLUT_RIGHT_BUTTON:
-		if(state==GLUT_DOWN)
-			glutIdleFunc(spinDisplayReverse);
-		break;
-	default:
-		break;
-	}
-}
-
 void keyPressed(unsigned char key, int x, int y)
 {
 	if(key == 'a')
