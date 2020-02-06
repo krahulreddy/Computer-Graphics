@@ -105,6 +105,10 @@ void circle(cx, cy, r, semi)
 		}
 		draw(cx, cy, x, y, semi);
 	}
+	if(semi)
+	{
+		bresenham(cx - r, cy, cx + r, cy);
+	}
 }
 
 void wheel(cx, cy, r)

@@ -14,7 +14,7 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor3f(0, 1, 0.4);
-
+//	glPushMatrix();
 	if(!clear)
 	{
 		// Head
@@ -49,16 +49,32 @@ void display()
 		// Hands
 		if(rotate)
 		{
+//			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
 				glTranslatef(position + (6 * size / 5) + 10, 390 + size, 0);
-				glRotatef(0, 0, rA, 1);
+				glRotatef(rA, 1, 0, 0);
 				glTranslatef(-position - (6 * size / 5) - 10, -390 - size, 0);
+//				glOrtho(0, 1, 0, 1, -1, 1);
 
 				glBegin(GL_POLYGON);
-				glVertex2i(position + (size) + 10, 390 - size);
-				glVertex2i(position + (7 * size / 5) + 10, 390 - size);
-				glVertex2i(position + (7 * size / 5) + 10, 390 + size);
-				glVertex2i(position + (size) + 10, 390 + size);
+				glVertex2i((position + (size) + 10) / 1, (390 - size) / 1);
+				glVertex2i((position + (7 * size / 5) + 10) / 1, (390 - size) / 1);
+				glVertex2i((position + (7 * size / 5) + 10) / 1, (390 + size) / 1);
+				glVertex2i((position + (size) + 10) / 1, (390 + size) / 1);
+				glEnd();
+
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(position - (6 * size / 5) + 10, 390 + size, 0);
+				glRotatef(rA, 1, 0, 0);
+				glTranslatef(-position + (6 * size / 5) - 10, -390 - size, 0);
+
+				glBegin(GL_POLYGON);
+				glVertex2i(position - (size) - 10, 390 - size);
+				glVertex2i(position - (7 * size / 5) - 10, 390 - size);
+				glVertex2i(position - (7 * size / 5) - 10, 390 + size);
+				glVertex2i(position - (size) - 10, 390 + size);
 				glEnd();
 			glPopMatrix();
 		}
@@ -78,7 +94,7 @@ void display()
 			glEnd();
 		}
 	}
-	
+//	glPopMatrix();
 
 	glFlush();
 }
@@ -87,13 +103,14 @@ void update( int n) {
 //	X += 2;
 	rA ++;
 	glutPostRedisplay();
-	glutTimerFunc(1, update, 0);
+	glutTimerFunc(10, update, 0);
 }
 
 void keyPressed(unsigned char key, int x, int y)
 {
 	if(key == 'r')
 	{
+		rA = 0;
 		rotate = 1;// Rotate hands
 	}
 	else if(key == 's')
@@ -142,7 +159,8 @@ int main(int argc, char** argv)
 	glutInitWindowSize(H, W);
 	glutCreateWindow("Circle Drawing");
 
-	gluOrtho2D(0, H, 0, W);
+//	gluOrtho2D(0, H, 0, W);
+	glOrtho(0, H, 0, W, -100, 100);
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
