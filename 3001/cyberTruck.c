@@ -117,8 +117,6 @@ void wheel(cx, cy, r)
 	glColor3f(0.0, 1.0, 0.4);
 	circle(cx, cy, r, 0);
 
-
-
 	// Inner circle
 	glColor3f(1.0, 0.0, 0.0);
 	circle(cx, cy, r / 3, 0);
