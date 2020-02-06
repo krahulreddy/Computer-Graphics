@@ -1,17 +1,24 @@
 #include<stdio.h>
 #include<GL/glut.h>
+#include "circle.c"
 
 #define H 1000
 #define W 800
 
-int X = 0, Y = 0, d = 15, fX = 100, fY = -50;
+int X = 0, Y = 0, d = 15, fX = 100, fY = -50, wheelX, wheelY, wheelR = 100, drawNew = 0;
 
 void display()
 {
 	glPointSize(1.0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT);
 
-	// Character
+/*	if(drawNew)
+	{
+		wheel(wheelX, wheelY, wheelR);
+		drawNew = 0;
+		printf("%d %d\n", wheelX, wheelY);
+	}
+/*	// Character
 	glColor3f(1, 1, 1);
 	glBegin(GL_POLYGON);
 	glVertex2i(X, Y);
@@ -28,7 +35,7 @@ void display()
 	glVertex2i(fX + 50, fY + 50);
 	glVertex2i(fX + 50, fY);
 	glEnd();
-
+*/
 	glFlush();
 }
 
@@ -45,26 +52,52 @@ void mouse(int button,int state,int x,int y)
 	switch(button)
 	{
 	case GLUT_LEFT_BUTTON:
-		if(state==GLUT_DOWN)
-			glutIdleFunc(spinDisplay);
-		break;
-	case GLUT_MIDDLE_BUTTON:
-		if(state==GLUT_DOWN)
-		{
-			glutIdleFunc(NULL);
-		}
+		wheelX = x;
+		wheelY = W - y;
+		wheel(x, W - y, wheelR);
+		printf("%d %d\n", x, y);
 		break;
 	case GLUT_RIGHT_BUTTON:
-		if(state==GLUT_DOWN)
-			glutIdleFunc(spinDisplayReverse);
+		printf("Exit\n");
+		wheel(x, y, wheelR);
+		glutDestroyWindow(1);
 		break;
 	default:
 		break;
 	}
+	glutPostRedisplay();
 }
 
+/*
+switch(button)
+	{
+		case GLUT_LEFT_BUTTON:
+			wheel(x, y, wheelR);
+			break;
+		case GLUT_RIGHT_BUTTON:
+			exit 1;
+		default:
+			break;
+	}
+*/
 void keyPressed(unsigned char key, int x, int y)
 {
+	if(key == 'i')
+	{
+		wheelR += d;
+	}
+	else if(key == 'd')
+	{
+		wheelR -= d;
+		if(wheelR < 0)
+			wheelR = d;
+	}
+	else if(key == 'c')
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
+
+/*
 	if(key == 'a')
 	{
 		X -= d;
@@ -86,6 +119,7 @@ void keyPressed(unsigned char key, int x, int y)
 		fX = rand() % H > H / 2? rand() % H : -rand() % H;
 		fY = rand() % W > W / 2? rand() % W : -rand() % W;
 	}
+*/
 	glutPostRedisplay();
 }
 
@@ -95,10 +129,13 @@ int main(int argc, char** argv)
 	glutInitWindowSize(H, W);
 	glutCreateWindow("Circle Drawing");
 
-	gluOrtho2D(-H, H, -W, W);
+	gluOrtho2D(0, H, 0, W);
 	glClearColor(0,0,0,1);
+	glClear(GL_COLOR_BUFFER_BIT);
+
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyPressed);
+	glutMouseFunc(mouse);
 //	glutTimerFunc(50, update, 0);
 	glutMainLoop();
 }
