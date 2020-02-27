@@ -6,7 +6,7 @@
 #define W 800
 
 
-int X_, Y_, Z_, X, Y, Z, rA, size = 100, tx, ty, tz, n;
+int X_, Y_, Z_, X, Y, Z, rA, size_ = 100, size = 100, tx, ty, tz, n;
 
 void display()
 {
@@ -22,58 +22,62 @@ void display()
 			glColor3f(0, 1, 0);
 			glBegin(GL_POLYGON);
 				glVertex3i(X_ + 0, Y_ + 0,  Z_ + 0);
-				glVertex3i(X_ + 0, Y_ + size, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + size, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + 0, Z_ + 0);
+				glVertex3i(X_ + 0, Y_ + size_, Z_ + 0);
+				glVertex3i(X_ + size_, Y_ + size_, Z_ + 0);
+				glVertex3i(X_ + size_, Y_ + 0, Z_ + 0);
 			glEnd();
 		glPopMatrix();
 		glPushMatrix();
 			glColor3f(1, 0, 0);
 			glBegin(GL_POLYGON);
-				glVertex3i(X_ + 0, Y_ + 0, Z_ + size);
-				glVertex3i(X_ + 0, Y_ + size, Z_ + size);
-				glVertex3i(X_ + size, Y_ + size, Z_ + size);
-				glVertex3i(X_ + size, Y_ + 0, Z_ + size);
+				glVertex3i(X_ + 0, Y_ + 0, Z_ + size_);
+				glVertex3i(X_ + 0, Y_ + size_, Z_ + size_);
+				glVertex3i(X_ + size_, Y_ + size_, Z_ + size_);
+				glVertex3i(X_ + size_, Y_ + 0, Z_ + size_);
 			glEnd();
 		glPopMatrix();
 		glPushMatrix();
 			glColor3f(0, 0, 1);
 			glBegin(GL_POLYGON);
 				glVertex3i(X_ + 0, Y_ + 0, Z_ + 0);
-				glVertex3i(X_ + 0, Y_ + size, Z_ + 0);
-				glVertex3i(X_ + 0, Y_ + size, Z_ + size);
-				glVertex3i(X_ + 0, Y_ + 0, Z_ + size);
+				glVertex3i(X_ + 0, Y_ + size_, Z_ + 0);
+				glVertex3i(X_ + 0, Y_ + size_, Z_ + size_);
+				glVertex3i(X_ + 0, Y_ + 0, Z_ + size_);
 			glEnd();
 		glPopMatrix();
 		glPushMatrix();
 			glColor3f(1, 1, 0.4);
 			glBegin(GL_POLYGON);
-				glVertex3i(X_ + size, Y_ + 0, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + size, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + size, Z_ + size);
-				glVertex3i(X_ + size, Y_ + 0, Z_ + size);
+				glVertex3i(X_ + size_, Y_ + 0, Z_ + 0);
+				glVertex3i(X_ + size_, Y_ + size_, Z_ + 0);
+				glVertex3i(X_ + size_, Y_ + size_, Z_ + size_);
+				glVertex3i(X_ + size_, Y_ + 0, Z_ + size_);
 			glEnd();
 		glPopMatrix();
 		glPushMatrix();
 			glColor3f(0, 0.5, 0.3);
 			glBegin(GL_POLYGON);
 				glVertex3i(X_ + 0, Y_ + 0, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + 0, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + 0, Z_ + size);
-				glVertex3i(X_ + 0, Y_ + 0, Z_ + size);
+				glVertex3i(X_ + size_, Y_ + 0, Z_ + 0);
+				glVertex3i(X_ + size_, Y_ + 0, Z_ + size_);
+				glVertex3i(X_ + 0, Y_ + 0, Z_ + size_);
 			glEnd();
 		glPopMatrix();
 		glPushMatrix();
 			glColor3f(1, 1, 1);
 			glBegin(GL_POLYGON);
-				glVertex3i(X_ + 0, Y_ + size, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + size, Z_ + 0);
-				glVertex3i(X_ + size, Y_ + size, Z_ + size);
-				glVertex3i(X_ + 0, Y_ + size, Z_ + size);
+				glVertex3i(X_ + 0, Y_ + size_, Z_ + 0);
+				glVertex3i(X_ + size_, Y_ + size_, Z_ + 0);
+				glVertex3i(X_ + size_, Y_ + size_, Z_ + size_);
+				glVertex3i(X_ + 0, Y_ + size_, Z_ + size_);
 			glEnd();
 		glPopMatrix();
 	glPopMatrix();
 	
+//	X += 200;
+//	Y += 200;
+//	Z += 200;
+//	size *= tx;
 
 	glPushMatrix();
 		glRotatef(50, 1, 1, 1);
@@ -136,13 +140,13 @@ void display()
 }
 
 void update( int n) {
-//	if(tx && abs(Y - ty) > 5 && abs(Z - tz) > 5)
-//	{
+	if(size < tx * size_)
+	{
 		printf("%d %d %d\n", X, Y, Z);
-		size *= tx;
-//	}
+		size += 1;
+	}
 //	X += 2;
-	rA ++;
+//	rA ++;
 	glutPostRedisplay();
 	glutTimerFunc(10, update, 0);
 }
