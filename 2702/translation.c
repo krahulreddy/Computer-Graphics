@@ -74,7 +74,9 @@ void display()
 		glPopMatrix();
 	glPopMatrix();
 	
-
+/*X = tx;
+Y = ty;
+Z = tz;*/
 	glPushMatrix();
 		glRotatef(50, 1, 1, 1);
 		glPushMatrix();
@@ -136,7 +138,7 @@ void display()
 }
 
 void update( int n) {
-	if(abs(X - tx) > 5 && abs(Y - ty) > 5 && abs(Z - tz) > 5)
+	if(abs(X - tx) > 2 && abs(Y - ty) > 2 && abs(Z - tz) > 2)
 	{
 		printf("%d %d %d\n", X, Y, Z);
 		X += (tx - X) / 100;
@@ -240,7 +242,7 @@ int main(int argc, char** argv)
 	glutCreateWindow("Circle Drawing");
 
 //	gluOrtho2D(0, H, 0, W);
-	glOrtho(-H/2, H/2, -W/2, W/2, -500, 500);
+	glOrtho(-H/2, H/2, -W/2, W/2, -1000, 1000);
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
