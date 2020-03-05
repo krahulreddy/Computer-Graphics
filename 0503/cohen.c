@@ -45,95 +45,108 @@ void display()
 		glVertex3i(x_max, y_min, 0);
 	glEnd();
 
-	glColor3f(0, 0, 0);
+	glColor3f(1, 0, 0);
 
 	int i;
 	for(i = 0; i < cnt; i++)
 	{
+		float m;
+		if(X2[i] != X1[i])
+			m = (Y2[i] - Y1[i]) / (X2[i] - X1[i]);
+		else
+			m = 64000;
 		int b1 = bitCode(X1[i], Y1[i]), b2 = bitCode(X2[i], Y2[i]);
 		printf("Line %d: \n\t\tP1: %d\t\tP2: %d\n", i + 1, b1, b2);
-		if((b1 | b2) == 0)
+		int acc = 0;
+		while(!acc)
 		{
-			printf("Line is inside\n");
-			line(X1[i], Y1[i], X2[i], Y2[i]);
-			continue;
+			if(X2[i] != X1[i])
+				m = (Y2[i] - Y1[i]) / (X2[i] - X1[i]);
+			else
+				m = 64000;
+			if((b1 | b2) == 0)
+			{
+				printf("Line is inside\n");
+				line(X1[i], Y1[i], X2[i], Y2[i]);
+				acc = 1;
+			}
+			if((b1 & b2) != 0)
+			{
+				printf("Line is outside\n");
+				break;
+			}
+			else
+			{
+				printf("Partial\n");
+				if(b1 != 0)
+				{
+					if(b1 & 8)
+					{
+						int x = (Y1[i] - y_max) / -m + X1[i];
+						X1[i] = x;
+						Y1[i] = y_max;
+					}
+					if(b1 & 4)
+					{
+						int x = (Y1[i] - y_min) / -m + X1[i];
+						X1[i] = x;
+						Y1[i] = y_min;
+					}
+					if(b1 & 2)
+					{
+						int y = (X1[i] - x_min) * m - Y1[i];
+						X1[i] = x_min;
+						Y1[i] = -y;
+					}
+					if(b1 & 1)
+					{
+						int y = (X1[i] - x_max) * m - Y1[i];
+						X1[i] = x_max;
+						Y1[i] = -y;
+					}
+				}
+				else
+				{
+					if(b2 & 8)
+					{
+						int x = (Y2[i] - y_max) / -m + X2[i];
+						X2[i] = x;
+						Y2[i] = y_max;
+					}
+					if(b2 & 4)
+					{
+						int x = (Y2[i] - y_min) / -m + X2[i];
+						X2[i] = x;
+						Y2[i] = y_min;
+					}
+					if(b2 & 2)
+					{
+						int y = (X2[i] - x_min) * m - Y2[i];
+						X2[i] = x_min;
+						Y2[i] = -y;
+					}
+					if(b2 & 1)
+					{
+						int y = (X2[i] - x_max) * m - Y2[i];
+						X2[i] = x_max;
+						Y2[i] = -y;
+					}
+
+				}
+
+				b1 = bitCode(X1[i], Y1[i]);
+				b2 = bitCode(X2[i], Y2[i]);
+				printf("%d %d %d %d %d %d\n", X1[i], Y1[i], X2[i], Y2[i], b1, b2);
+				//line(X1[i], Y1[i], X2[i], Y2[i]);
+			}
 		}
-		if((b1 & b2) != 0)
-		{
-			printf("Line is outside\n");
-		}
-		else
-		{
-			printf("Partial\n");
-//			if(b1 == 8)
-//			{
-				
-		}
+
+//-200 -200 200 200 3 0 0 100 100 100 100 100 200 100 200 0 0 -300 -300 600 500 -50 0 -50 500
+	
 	}
 	glFlush();
 }
-/*
-void update( int n) {
-	if(abs(X - tx) > 2 && abs(Y - ty) > 2 && abs(Z - tz) > 2)
-	{
-		printf("%d %d %d\n", X, Y, Z);
-		X += (tx - X) / 100;
-		Y += (ty - Y) / 100;
-		Z += (tz - Y) / 100;
-	}
-//	X += 2;
-	rA ++;
-	glutPostRedisplay();
-	glutTimerFunc(10, update, 0);
-}
-/*
-void keyPressed(unsigned char key, int x, int y)
-{
-	if(key == 'r')
-	{
-		rA = 0;
-		rotate = 1;// Rotate hands
-	}
-	else if(key == 's')
-	{
-		rotate = 0;// Stop hand rotation
-	}
-	else if(key == 'i')
-	{
-		size += d;
-	}
-	else if(key == 'd')
-	{
-		size -= d;
-		if(size < 0)
-			size = 0;
-	}
-	else if(key == 't')
-	{
-		position += d;
-		if(size < 0)
-			size = 0;
-	}
-	else if(key == 'h')
-	{
-		position -= d;
-		if(size < 0)
-			size = 0;
-	}
-	else if(key == 'c')
-	{
-		clear = !clear;
-		glClear(GL_COLOR_BUFFER_BIT);
-	}
-	else if(key == 'e')
-	{
-		printf("Exit\n");
-		glutDestroyWindow(1);
-		exit;
-	}
-	glutPostRedisplay();
-}
-*/
+
 
 int main(int argc, char** argv)
 {
